@@ -1,1 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Paxton Project Configurator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
+<body class="bg-gray-100 min-h-screen p-8">
+
+  <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+    <h1 class="text-3xl font-bold mb-6">Paxton Project Configurator</h1>
+
+    <!-- Platform Questions -->
+    <div class="mb-6">
+      <label class="block font-semibold mb-2">Number of Doors (1–10)</label>
+      <input id="doorCount" type="number" min="1" max="10"
+             class="w-full border rounded-lg p-2" />
+    </div>
+
+    <div class="mb-6">
+      <label class="block font-semibold mb-2">Multi-Site?</label>
+      <select id="multiSite" class="w-full border rounded-lg p-2">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="mb-6">
+      <label class="block font-semibold mb-2">Cloud Management Required?</label>
+      <select id="cloud" class="w-full border rounded-lg p-2">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="mb-6">
+      <label class="block font-semibold mb-2">Future Expansion Expected?</label>
+      <select id="expansion" class="w-full border rounded-lg p-2">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="mb-6">
+      <label class="block font-semibold mb-2">Video Integration Required?</label>
+      <select id="video" class="w-full border rounded-lg p-2">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <button onclick="determinePlatform()"
+            class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+      Recommend Platform
+    </button>
+
+    <!-- Recommendation Output -->
+    <div id="recommendation" class="mt-8 text-xl font-bold"></div>
+
+    <!-- BOM Output -->
+    <div id="bomOutput" class="mt-8"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
