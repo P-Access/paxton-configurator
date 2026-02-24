@@ -1,1 +1,50 @@
-
+{
+  "net2": {
+    "lv_controller": {
+      "name": "Net2 1 Door Controller LV",
+      "sku": "NET2-LV-XXX",
+      "msrp": 800
+    },
+    "poe_controller": {
+      "name": "Net2 1 Door Controller PoE+",
+      "sku": "NET2-POE-XXX",
+      "msrp": 800
+    },
+    "readers": {
+      "p50": {
+        "name": "Net2 P50 Reader",
+        "sku": "345-220-US",
+        "msrp": 300
+      },
+      "kp50": {
+        "name": "Net2 KP50 Keypad Reader",
+        "sku": "355-110-US",
+        "msrp": 300
+      }
+    }
+  },
+  "paxton10": {
+    "lv_controller": {
+      "name": "Paxton10 1 Door Controller LV",
+      "sku": "P10-LV-XXX",
+      "msrp": 1000
+    },
+    "poe_controller": {
+      "name": "Paxton10 1 Door Controller PoE+",
+      "sku": "P10-POE-XXX",
+      "msrp": 1000
+    },
+    "readers": {
+      "slimline": {
+        "name": "Paxton10 Slimline Reader",
+        "sku": "010-296-U",
+        "msrp": 400
+      },
+      "keypad": {
+        "name": "Paxton10 Keypad Reader",
+        "sku": "010-721-US",
+        "msrp": 400
+      }
+    }
+  }
+}
