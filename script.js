@@ -156,3 +156,4 @@ document.getElementById("recommendation").innerHTML =
        ${reason}
      </div>
    </div>`;
+}
