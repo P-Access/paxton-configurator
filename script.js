@@ -139,21 +139,3 @@ function displayBOM(bom) {
     </div>
   `;
 
-  let reason = "";
-
-if (platform === "paxton10") {
-  reason = "Recommended due to multi-site, cloud, expansion, or video requirements.";
-} else {
-  reason = "Recommended for single-site, non-cloud managed systems.";
-}
-
-document.getElementById("recommendation").innerHTML =
-  `<div class="p-4 bg-blue-50 rounded-lg">
-     <div class="text-xl font-bold mb-2">
-       Recommended Platform: ${platform.toUpperCase()}
-     </div>
-     <div class="text-gray-700">
-       ${reason}
-     </div>
-   </div>`;
-}
