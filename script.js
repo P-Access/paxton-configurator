@@ -139,3 +139,5 @@ function displayBOM(bom) {
     </div>
   `;
 
+  document.getElementById("finalBOM").innerHTML = table;
+}
