@@ -137,7 +137,15 @@ function displayBOM(bom) {
     <div class="mt-4 text-xl font-bold">
       Total MSRP: $${total.toFixed(2)}
     </div>
+    <button onclick="copyBOM()" 
+  class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+  Copy BOM to Clipboard
+</button>
   `;
 
   document.getElementById("finalBOM").innerHTML = table;
+function copyBOM() {
+  const text = document.getElementById("finalBOM").innerText;
+  navigator.clipboard.writeText(text);
+  alert("BOM copied to clipboard!");
 }
