@@ -47,7 +47,7 @@ function showBuildOptions(platform) {
       </select>
 
       <button onclick="generateBOM('${platform}')"
-              class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700">
+        class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700">
         Generate BOM
       </button>
     </div>
@@ -147,7 +147,7 @@ function displayBOM(bom) {
 
   document.getElementById("finalBOM").innerHTML = table;
 }
-}
+
 function copyBOM() {
   const text = document.getElementById("finalBOM").innerText;
   navigator.clipboard.writeText(text);
