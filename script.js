@@ -177,11 +177,27 @@ function downloadPDF() {
   doc.setFontSize(18);
   doc.text("Paxton Project Quote", 14, 20);
 
-  doc.autoTable({
-    startY: 30,
-    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
-    body: rows
-  });
+ doc.autoTable({
+  startY: 30,
+
+  head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
+  body: rows,
+
+  headStyles: {
+    fillColor: [86, 170, 28], // Paxton Green
+    textColor: [255, 255, 255],
+    fontStyle: "bold"
+  },
+
+  styles: {
+    lineColor: [200, 200, 200],
+    lineWidth: 0.1
+  },
+
+  alternateRowStyles: {
+    fillColor: [245, 245, 245]
+  }
+});
 
   doc.setFontSize(14);
   doc.text(`Total MSRP: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 15);
