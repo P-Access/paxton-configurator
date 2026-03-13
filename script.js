@@ -98,7 +98,6 @@ function generateBOM(platform) {
 
   displayBOM(bom);
 }
-
 function displayBOM(bom) {
   let total = 0;
 
@@ -139,19 +138,19 @@ function displayBOM(bom) {
       Total MSRP: $${total.toFixed(2)}
     </div>
 
-  <div class="mt-4 text-xl font-bold">
-  Total MSRP: $${total.toFixed(2)}
-</div>
+    <button onclick="copyBOM()"
+      class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      Copy BOM
+    </button>
 
-<button onclick="copyBOM()"
-  class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-  Copy BOM
-</button>
+    <button onclick="downloadPDF()"
+      class="mt-4 ml-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+      Download Quote PDF
+    </button>
+  `;
 
-<button onclick="downloadPDF()"
-  class="mt-4 ml-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
-  Download Quote PDF
-</button>
+  document.getElementById("finalBOM").innerHTML = table;
+}
 function downloadPDF() {
   const { jsPDF } = window.jspdf;
 
