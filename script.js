@@ -139,17 +139,34 @@ function displayBOM(bom) {
       Total MSRP: $${total.toFixed(2)}
     </div>
 
-    <button onclick="copyBOM()"
-      class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-      Copy BOM to Clipboard
-    </button>
-  `;
+  <div class="mt-4 text-xl font-bold">
+  Total MSRP: $${total.toFixed(2)}
+</div>
 
-  document.getElementById("finalBOM").innerHTML = table;
-}
+<button onclick="copyBOM()"
+  class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+  Copy BOM
+</button>
 
-function copyBOM() {
-  const text = document.getElementById("finalBOM").innerText;
-  navigator.clipboard.writeText(text);
-  alert("BOM copied to clipboard!");
+<button onclick="downloadPDF()"
+  class="mt-4 ml-2 bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+  Download Quote PDF
+</button>
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+
+  const doc = new jsPDF();
+
+  const content = document.getElementById("finalBOM").innerText;
+
+  doc.setFontSize(18);
+  doc.text("Paxton Project Quote", 20, 20);
+
+  doc.setFontSize(12);
+
+  const lines = doc.splitTextToSize(content, 170);
+
+  doc.text(lines, 20, 40);
+
+  doc.save("paxton-quote.pdf");
 }
