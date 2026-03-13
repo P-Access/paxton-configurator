@@ -96,7 +96,8 @@ function generateBOM(platform) {
     msrp: reader.msrp
   });
 
-  displayBOM(bom);
+displayBOM(bom);
+window.currentBOM = bom;
 }
 function displayBOM(bom) {
   let total = 0;
