@@ -153,20 +153,38 @@ function displayBOM(bom) {
   document.getElementById("finalBOM").innerHTML = table;
 }
 function downloadPDF() {
-  const { jsPDF } = window.jspdf;
 
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  const content = document.getElementById("finalBOM").innerText;
+  const bom = window.currentBOM;
+
+  let total = 0;
+
+  const rows = bom.map(item => {
+    const lineTotal = item.qty * item.msrp;
+    total += lineTotal;
+
+    return [
+      item.name,
+      item.sku,
+      item.qty,
+      `$${item.msrp.toFixed(2)}`,
+      `$${lineTotal.toFixed(2)}`
+    ];
+  });
 
   doc.setFontSize(18);
-  doc.text("Paxton Project Quote", 20, 20);
+  doc.text("Paxton Project Quote", 14, 20);
 
-  doc.setFontSize(12);
+  doc.autoTable({
+    startY: 30,
+    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
+    body: rows
+  });
 
-  const lines = doc.splitTextToSize(content, 170);
-
-  doc.text(lines, 20, 40);
+  doc.setFontSize(14);
+  doc.text(`Total MSRP: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 15);
 
   doc.save("paxton-quote.pdf");
 }
