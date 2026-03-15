@@ -227,7 +227,7 @@ doc.text(
 
 doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 };
-
+}
 function toggleDarkMode() {
   document.documentElement.classList.toggle("dark");
 }
