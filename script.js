@@ -184,11 +184,11 @@ function downloadPDF() {
       `$${lineTotal.toFixed(2)}`
     ];
   });
-const logo = new Image();
+  // HEADER
+  const logo = new Image();
 logo.src = "images/paxton-logo.png";
 
 doc.addImage(logo, "PNG", 150, 10, 40, 15);
-  // HEADER
   doc.setFontSize(20);
   doc.text("Paxton Project Quote", 14, 20);
 
