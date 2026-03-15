@@ -1,86 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Paxton Project Configurator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<title>Paxton Project Configurator</title>
+
+<script>
+tailwind.config = {
+  darkMode: 'class'
+}
+</script>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white min-h-screen">
 
-<button onclick="toggleDarkMode()"
-class="absolute top-4 right-4 bg-gray-200 dark:bg-gray-700 text-black dark:text-white px-3 py-2 rounded-lg">
-Toggle Dark Mode
-</button>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
 
-<div class="p-8">
-  <h1 class="text-3xl font-bold">Paxton Project Configurator</h1>
-</div>
+<!-- HEADER -->
+<header class="bg-green-600 text-white shadow-lg">
+  <div class="max-w-6xl mx-auto flex items-center justify-between p-4">
 
-</body>
-    <!-- Platform Questions -->
-    <div class="mt-6">
-  <label class="block font-semibold mb-1">Project Name</label>
-  <input id="projectName" class="w-full border rounded-lg p-2 mb-3" />
-
-  <label class="block font-semibold mb-1">Customer Name</label>
-  <input id="customerName" class="w-full border rounded-lg p-2 mb-3" />
-
-  <label class="block font-semibold mb-1">Project State</label>
-  <input id="projectState" class="w-full border rounded-lg p-2 mb-3" placeholder="NC, SC, TN etc" />
-</div>
-    <div class="mb-6">
-      <label class="block font-semibold mb-2">Number of Doors (1–1000)</label>
-      <input id="doorCount" type="number" min="1" max="1000"
-             class="w-full border rounded-lg p-2" />
+    <div class="flex items-center space-x-3">
+      <img src="images/paxton-logo.png" class="h-8">
+      <h1 class="text-xl font-semibold">Paxton Project Configurator</h1>
     </div>
 
-    <div class="mb-6">
-      <label class="block font-semibold mb-2">Multi-Site?</label>
-      <select id="multiSite" class="w-full border rounded-lg p-2">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </div>
-
-    <div class="mb-6">
-      <label class="block font-semibold mb-2">Cloud Management Required?</label>
-      <select id="cloud" class="w-full border rounded-lg p-2">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </div>
-
-    <div class="mb-6">
-      <label class="block font-semibold mb-2">Future Expansion Expected?</label>
-      <select id="expansion" class="w-full border rounded-lg p-2">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </div>
-
-    <div class="mb-6">
-      <label class="block font-semibold mb-2">Video Integration Required?</label>
-      <select id="video" class="w-full border rounded-lg p-2">
-        <option value="no">No</option>
-        <option value="yes">Yes</option>
-      </select>
-    </div>
-
-    <button onclick="determinePlatform()"
-            class="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
-      Recommend Platform
+    <button onclick="toggleDarkMode()"
+      id="themeToggle"
+      class="bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg">
+      🌙
     </button>
 
-    <!-- Recommendation Output -->
-    <div id="recommendation" class="mt-8 text-xl font-bold"></div>
-
-    <!-- BOM Output -->
-    <div id="bomOutput" class="mt-8"></div>
-
   </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main class="max-w-4xl mx-auto p-8">
+
+<div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+
+<!-- PROJECT DETAILS -->
+
+<div class="mt-6">
+  <label class="block font-semibold mb-1">Project Name</label>
+  <input id="projectName" class="w-full border rounded-lg p-2 mb-3 dark:bg-gray-700">
+
+  <label class="block font-semibold mb-1">Customer Name</label>
+  <input id="customerName" class="w-full border rounded-lg p-2 mb-3 dark:bg-gray-700">
+
+  <label class="block font-semibold mb-1">Project State</label>
+  <input id="projectState" class="w-full border rounded-lg p-2 mb-3 dark:bg-gray-700" placeholder="NC, SC, TN etc">
+</div>
+
+<!-- QUESTIONS -->
+
+<div class="mb-6">
+<label class="block font-semibold mb-2">Number of Doors (1–1000)</label>
+<input id="doorCount" type="number" min="1" max="1000"
+class="w-full border rounded-lg p-2 dark:bg-gray-700">
+</div>
+
+<div class="mb-6">
+<label class="block font-semibold mb-2">Multi-Site?</label>
+<select id="multiSite" class="w-full border rounded-lg p-2 dark:bg-gray-700">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+
+<div class="mb-6">
+<label class="block font-semibold mb-2">Cloud Management Required?</label>
+<select id="cloud" class="w-full border rounded-lg p-2 dark:bg-gray-700">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+
+<div class="mb-6">
+<label class="block font-semibold mb-2">Future Expansion Expected?</label>
+<select id="expansion" class="w-full border rounded-lg p-2 dark:bg-gray-700">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+
+<div class="mb-6">
+<label class="block font-semibold mb-2">Video Integration Required?</label>
+<select id="video" class="w-full border rounded-lg p-2 dark:bg-gray-700">
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
+
+<button onclick="determinePlatform()"
+class="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700">
+Recommend Platform
+</button>
+
+<!-- RESULTS -->
+
+<div id="recommendation" class="mt-8 text-xl font-bold"></div>
+
+<div id="bomOutput" class="mt-8"></div>
+
+</div>
+
+</main>
+
+<!-- JS LIBRARIES -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+
 <script src="script.js"></script>
+
 </body>
 </html>
