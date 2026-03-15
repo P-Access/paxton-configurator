@@ -227,32 +227,4 @@ logo.onload = function () {
 
   doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 };
-
-  // TABLE
-  doc.autoTable({
-    startY: 50,
-
-    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
-    body: rows,
-
-    headStyles: {
-      fillColor: [86, 170, 28],
-      textColor: [255, 255, 255],
-      fontStyle: "bold"
-    },
-
-    alternateRowStyles: {
-      fillColor: [245,245,245]
-    }
-  });
-
-  // TOTAL
-  doc.setFontSize(14);
-  doc.text(
-    `Total MSRP: $${total.toFixed(2)}`,
-    14,
-    doc.lastAutoTable.finalY + 15
-  );
-
-  doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 }
