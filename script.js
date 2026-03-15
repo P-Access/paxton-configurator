@@ -233,12 +233,12 @@ function toggleDarkMode() {
 }
 function toggleDarkMode() {
 
-  const html = document.documentElement;
+  const body = document.getElementById("pageBody");
   const button = document.getElementById("themeToggle");
 
-  html.classList.toggle("dark");
+  body.classList.toggle("dark");
 
-  if (html.classList.contains("dark")) {
+  if (body.classList.contains("dark")) {
     button.textContent = "☀️";
   } else {
     button.textContent = "🌙";
