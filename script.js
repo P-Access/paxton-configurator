@@ -231,3 +231,17 @@ doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 function toggleDarkMode() {
   document.documentElement.classList.toggle("dark");
 }
+function toggleDarkMode() {
+
+  const html = document.documentElement;
+  const button = document.getElementById("themeToggle");
+
+  html.classList.toggle("dark");
+
+  if (html.classList.contains("dark")) {
+    button.textContent = "☀️";
+  } else {
+    button.textContent = "🌙";
+  }
+
+}
