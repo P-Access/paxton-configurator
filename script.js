@@ -218,16 +218,15 @@ logo.onload = function () {
     }
   });
 
-  doc.setFontSize(14);
-  doc.text(
-    `Total MSRP: $${total.toFixed(2)}`,
-    14,
-    doc.lastAutoTable.finalY + 15
-  );
+doc.setFontSize(14);
+doc.text(
+  `Total MSRP: $${total.toFixed(2)}`,
+  14,
+  doc.lastAutoTable.finalY + 15
+);
 
-  doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
+doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 };
-}
 
 function toggleDarkMode() {
   document.documentElement.classList.toggle("dark");
