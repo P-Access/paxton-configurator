@@ -186,7 +186,7 @@ function downloadPDF() {
   });
   // HEADER
   const logo = new Image();
-logo.src = "images/paxton-logo.png";
+logo.src = "images/paxton logo.png";
 
 doc.addImage(logo, "PNG", 150, 10, 40, 15);
   doc.setFontSize(20);
