@@ -185,10 +185,13 @@ function downloadPDF() {
     ];
   });
   // HEADER
-  const logo = new Image();
-logo.src = "images/paxton logo.png";
+const logo = new Image();
+logo.src = "images/paxton-logo.png";
 
-doc.addImage(logo, "PNG", 150, 10, 40, 15);
+logo.onload = function () {
+
+  doc.addImage(logo, "PNG", 150, 10, 40, 15);
+
   doc.setFontSize(20);
   doc.text("Paxton Project Quote", 14, 20);
 
@@ -200,6 +203,30 @@ doc.addImage(logo, "PNG", 150, 10, 40, 15);
   doc.text(`Customer: ${customerName}`, 120, 30);
   doc.text(`Project: ${projectName}`, 120, 36);
   doc.text(`State: ${projectState}`, 120, 42);
+
+  doc.autoTable({
+    startY: 50,
+    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
+    body: rows,
+    headStyles: {
+      fillColor: [86,170,28],
+      textColor: [255,255,255],
+      fontStyle: "bold"
+    },
+    alternateRowStyles: {
+      fillColor: [245,245,245]
+    }
+  });
+
+  doc.setFontSize(14);
+  doc.text(
+    `Total MSRP: $${total.toFixed(2)}`,
+    14,
+    doc.lastAutoTable.finalY + 15
+  );
+
+  doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
+};
 
   // TABLE
   doc.autoTable({
