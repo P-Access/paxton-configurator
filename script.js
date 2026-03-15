@@ -1,5 +1,9 @@
 let productsData = {};
-
+function generateQuoteNumber() {
+  const now = new Date();
+  const timestamp = now.getTime().toString().slice(-6);
+  return "PX-" + timestamp;
+}
 // Load product data
 fetch("products.json")
   .then(response => response.json())
