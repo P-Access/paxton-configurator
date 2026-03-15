@@ -163,6 +163,13 @@ function downloadPDF() {
 
   const bom = window.currentBOM;
 
+  const projectName = document.getElementById("projectName").value || "N/A";
+  const customerName = document.getElementById("customerName").value || "N/A";
+  const projectState = document.getElementById("projectState").value || "N/A";
+
+  const quoteDate = new Date().toLocaleDateString();
+  const quoteNumber = generateQuoteNumber();
+
   let total = 0;
 
   const rows = bom.map(item => {
@@ -178,33 +185,44 @@ function downloadPDF() {
     ];
   });
 
-  doc.setFontSize(18);
+  // HEADER
+  doc.setFontSize(20);
   doc.text("Paxton Project Quote", 14, 20);
 
- doc.autoTable({
-  startY: 30,
+  doc.setFontSize(11);
 
-  head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
-  body: rows,
+  doc.text(`Quote Number: ${quoteNumber}`, 14, 30);
+  doc.text(`Quote Date: ${quoteDate}`, 14, 36);
 
-  headStyles: {
-    fillColor: [86, 170, 28], // Paxton Green
-    textColor: [255, 255, 255],
-    fontStyle: "bold"
-  },
+  doc.text(`Customer: ${customerName}`, 120, 30);
+  doc.text(`Project: ${projectName}`, 120, 36);
+  doc.text(`State: ${projectState}`, 120, 42);
 
-  styles: {
-    lineColor: [200, 200, 200],
-    lineWidth: 0.1
-  },
+  // TABLE
+  doc.autoTable({
+    startY: 50,
 
-  alternateRowStyles: {
-    fillColor: [245, 245, 245]
-  }
-});
+    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
+    body: rows,
 
+    headStyles: {
+      fillColor: [86, 170, 28],
+      textColor: [255, 255, 255],
+      fontStyle: "bold"
+    },
+
+    alternateRowStyles: {
+      fillColor: [245,245,245]
+    }
+  });
+
+  // TOTAL
   doc.setFontSize(14);
-  doc.text(`Total MSRP: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 15);
+  doc.text(
+    `Total MSRP: $${total.toFixed(2)}`,
+    14,
+    doc.lastAutoTable.finalY + 15
+  );
 
-  doc.save("paxton-quote.pdf");
+  doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 }
