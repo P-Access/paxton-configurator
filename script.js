@@ -1,16 +1,39 @@
+/* -------------------------------------------------------
+   GLOBAL STATE
+------------------------------------------------------- */
 let productsData = {};
+let currentBOM = [];
+
+/* -------------------------------------------------------
+   INITIAL LOAD
+------------------------------------------------------- */
+fetch("products.json")
+  .then(res => res.json())
+  .then(data => productsData = data);
+
+/* -------------------------------------------------------
+   UTILITIES
+------------------------------------------------------- */
 function generateQuoteNumber() {
   const now = new Date();
-  const timestamp = now.getTime().toString().slice(-6);
-  return "PX-" + timestamp;
+  return "PX-" + now.getTime().toString().slice(-6);
 }
-// Load product data
-fetch("products.json")
-  .then(response => response.json())
-  .then(data => {
-    productsData = data;
-  });
 
+/* -------------------------------------------------------
+   DARK MODE TOGGLE (Tailwind‑Correct)
+------------------------------------------------------- */
+function toggleDarkMode() {
+  const html = document.documentElement;
+  const button = document.getElementById("themeToggle");
+
+  html.classList.toggle("dark");
+
+  button.textContent = html.classList.contains("dark") ? "☀️" : "🌙";
+}
+
+/* -------------------------------------------------------
+   PLATFORM RECOMMENDATION
+------------------------------------------------------- */
 function determinePlatform() {
   const multiSite = document.getElementById("multiSite").value;
   const cloud = document.getElementById("cloud").value;
@@ -19,12 +42,7 @@ function determinePlatform() {
 
   let platform = "net2";
 
-  if (
-    multiSite === "yes" ||
-    cloud === "yes" ||
-    expansion === "yes" ||
-    video === "yes"
-  ) {
+  if (multiSite === "yes" || cloud === "yes" || expansion === "yes" || video === "yes") {
     platform = "paxton10";
   }
 
@@ -34,19 +52,31 @@ function determinePlatform() {
   showBuildOptions(platform);
 }
 
+/* -------------------------------------------------------
+   BUILD OPTIONS UI (Dark‑Mode Compatible)
+------------------------------------------------------- */
 function showBuildOptions(platform) {
   const container = document.getElementById("bomOutput");
 
   container.innerHTML = `
     <div class="mt-6">
+
       <label class="block font-semibold mb-2">Power Type</label>
-      <select id="powerType" class="w-full border rounded-lg p-2 mb-4 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+      <select id="powerType"
+        class="w-full border rounded-lg p-2 mb-4
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               border-gray-300 dark:border-gray-600">
         <option value="lv">Low Voltage</option>
         <option value="poe_controller">PoE+</option>
       </select>
 
       <label class="block font-semibold mb-2">Reader Type</label>
-     <select id="readerType" class="w-full border rounded-lg p-2 mb-4 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+      <select id="readerType"
+        class="w-full border rounded-lg p-2 mb-4
+               bg-white dark:bg-gray-700
+               text-gray-900 dark:text-gray-100
+               border-gray-300 dark:border-gray-600">
         ${generateReaderOptions(platform)}
       </select>
 
@@ -62,54 +92,55 @@ function showBuildOptions(platform) {
 
 function generateReaderOptions(platform) {
   const readers = productsData[platform].readers;
-  let options = "";
-
-  for (let key in readers) {
-    options += `<option value="${key}">${readers[key].name}</option>`;
-  }
-
-  return options;
+  return Object.keys(readers)
+    .map(key => `<option value="${key}">${readers[key].name}</option>`)
+    .join("");
 }
 
+/* -------------------------------------------------------
+   BOM GENERATION
+------------------------------------------------------- */
 function generateBOM(platform) {
   const doorCount = parseInt(document.getElementById("doorCount").value);
   const powerType = document.getElementById("powerType").value;
   const readerType = document.getElementById("readerType").value;
 
   if (!doorCount || doorCount < 1) {
-    alert("Please enter valid door count.");
+    alert("Please enter a valid door count.");
     return;
   }
 
   const controller = productsData[platform][powerType];
   const reader = productsData[platform].readers[readerType];
 
-  let bom = [];
+  currentBOM = [
+    {
+      name: controller.name,
+      sku: controller.sku,
+      qty: doorCount,
+      msrp: controller.msrp
+    },
+    {
+      name: reader.name,
+      sku: reader.sku,
+      qty: doorCount,
+      msrp: reader.msrp
+    }
+  ];
 
-  bom.push({
-    name: controller.name,
-    sku: controller.sku,
-    qty: doorCount,
-    msrp: controller.msrp
-  });
-
-  bom.push({
-    name: reader.name,
-    sku: reader.sku,
-    qty: doorCount,
-    msrp: reader.msrp
-  });
-
-displayBOM(bom);
-window.currentBOM = bom;
+  displayBOM(currentBOM);
 }
+
+/* -------------------------------------------------------
+   BOM TABLE RENDERING (Dark‑Mode Compatible)
+------------------------------------------------------- */
 function displayBOM(bom) {
   let total = 0;
 
   let table = `
     <table class="w-full border mt-4">
-      <thead class="bg-gray-200 dark:bg-gray-700">
-        <tr class="dark:bg-gray-800">
+      <thead class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+        <tr>
           <th class="p-2 border">Product</th>
           <th class="p-2 border">SKU</th>
           <th class="p-2 border">Qty</th>
@@ -156,12 +187,28 @@ function displayBOM(bom) {
 
   document.getElementById("finalBOM").innerHTML = table;
 }
-function downloadPDF() {
 
+/* -------------------------------------------------------
+   COPY BOM
+------------------------------------------------------- */
+function copyBOM() {
+  let text = "Product\tSKU\tQty\tMSRP\tLine Total\n";
+
+  currentBOM.forEach(item => {
+    const lineTotal = item.qty * item.msrp;
+    text += `${item.name}\t${item.sku}\t${item.qty}\t$${item.msrp}\t$${lineTotal}\n`;
+  });
+
+  navigator.clipboard.writeText(text);
+  alert("BOM copied to clipboard.");
+}
+
+/* -------------------------------------------------------
+   PDF DOWNLOAD
+------------------------------------------------------- */
+function downloadPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-
-  const bom = window.currentBOM;
 
   const projectName = document.getElementById("projectName").value || "N/A";
   const customerName = document.getElementById("customerName").value || "N/A";
@@ -172,7 +219,7 @@ function downloadPDF() {
 
   let total = 0;
 
-  const rows = bom.map(item => {
+  const rows = currentBOM.map(item => {
     const lineTotal = item.qty * item.msrp;
     total += lineTotal;
 
@@ -184,59 +231,41 @@ function downloadPDF() {
       `$${lineTotal.toFixed(2)}`
     ];
   });
-  // HEADER
-const logo = new Image();
-logo.src = "images/paxton-logo.png";
 
-logo.onload = function () {
+  const logo = new Image();
+  logo.src = "images/paxton-logo.png";
 
-  doc.addImage(logo, "PNG", 150, 10, 40, 15);
+  logo.onload = function () {
+    doc.addImage(logo, "PNG", 150, 10, 40, 15);
 
-  doc.setFontSize(20);
-  doc.text("Paxton Project Quote", 14, 20);
+    doc.setFontSize(20);
+    doc.text("Paxton Project Quote", 14, 20);
 
-  doc.setFontSize(11);
+    doc.setFontSize(11);
+    doc.text(`Quote Number: ${quoteNumber}`, 14, 30);
+    doc.text(`Quote Date: ${quoteDate}`, 14, 36);
 
-  doc.text(`Quote Number: ${quoteNumber}`, 14, 30);
-  doc.text(`Quote Date: ${quoteDate}`, 14, 36);
+    doc.text(`Customer: ${customerName}`, 120, 30);
+    doc.text(`Project: ${projectName}`, 120, 36);
+    doc.text(`State: ${projectState}`, 120, 42);
 
-  doc.text(`Customer: ${customerName}`, 120, 30);
-  doc.text(`Project: ${projectName}`, 120, 36);
-  doc.text(`State: ${projectState}`, 120, 42);
+    doc.autoTable({
+      startY: 50,
+      head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
+      body: rows,
+      headStyles: {
+        fillColor: [86, 170, 28],
+        textColor: [255, 255, 255],
+        fontStyle: "bold"
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245]
+      }
+    });
 
-  doc.autoTable({
-    startY: 50,
-    head: [["Product", "SKU", "Qty", "MSRP", "Line Total"]],
-    body: rows,
-    headStyles: {
-      fillColor: [86,170,28],
-      textColor: [255,255,255],
-      fontStyle: "bold"
-    },
-    alternateRowStyles: {
-      fillColor: [245,245,245]
-    }
-  });
+    doc.setFontSize(14);
+    doc.text(`Total MSRP: $${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 15);
 
-doc.setFontSize(14);
-doc.text(
-  `Total MSRP: $${total.toFixed(2)}`,
-  14,
-  doc.lastAutoTable.finalY + 15
-);
-
-doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
-};
-}
-function toggleDarkMode() {
-  const html = document.documentElement;
-  const button = document.getElementById("themeToggle");
-
-  html.classList.toggle("dark");
-
-  if (html.classList.contains("dark")) {
-    button.textContent = "☀️";
-  } else {
-    button.textContent = "🌙";
-  }
+    doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
+  };
 }
