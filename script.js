@@ -40,13 +40,13 @@ function showBuildOptions(platform) {
   container.innerHTML = `
     <div class="mt-6">
       <label class="block font-semibold mb-2">Power Type</label>
-      <select id="powerType" class="w-full border rounded-lg p-2 mb-4">
+      <select id="powerType" class="w-full border rounded-lg p-2 mb-4 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
         <option value="lv">Low Voltage</option>
         <option value="poe_controller">PoE+</option>
       </select>
 
       <label class="block font-semibold mb-2">Reader Type</label>
-      <select id="readerType" class="w-full border rounded-lg p-2 mb-4">
+     <select id="readerType" class="w-full border rounded-lg p-2 mb-4 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
         ${generateReaderOptions(platform)}
       </select>
 
@@ -108,8 +108,8 @@ function displayBOM(bom) {
 
   let table = `
     <table class="w-full border mt-4">
-      <thead class="bg-gray-200">
-        <tr>
+      <thead class="bg-gray-200 dark:bg-gray-700">
+        <tr class="dark:bg-gray-800">
           <th class="p-2 border">Product</th>
           <th class="p-2 border">SKU</th>
           <th class="p-2 border">Qty</th>
@@ -125,7 +125,7 @@ function displayBOM(bom) {
     total += lineTotal;
 
     table += `
-      <tr>
+      <tr class="dark:bg-gray-800">
         <td class="p-2 border">${item.name}</td>
         <td class="p-2 border">${item.sku}</td>
         <td class="p-2 border">${item.qty}</td>
