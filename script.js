@@ -229,12 +229,12 @@ doc.save(`Paxton-Quote-${quoteNumber}.pdf`);
 };
 }
 function toggleDarkMode() {
-  const body = document.getElementById("pageBody");
+  const html = document.documentElement;
   const button = document.getElementById("themeToggle");
 
-  body.classList.toggle("dark");
+  html.classList.toggle("dark");
 
-  if (body.classList.contains("dark")) {
+  if (html.classList.contains("dark")) {
     button.textContent = "☀️";
   } else {
     button.textContent = "🌙";
