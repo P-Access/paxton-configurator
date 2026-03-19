@@ -12,6 +12,18 @@ tailwind.config = {
 </script>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Universal light mode styles */
+  select, input {
+    @apply bg-white text-gray-900 border-gray-300;
+  }
+
+  /* Universal dark mode styles */
+  .dark select,
+  .dark input {
+    @apply bg-gray-700 text-gray-100 border-gray-600;
+  }
+</style>
 
 </head>
 
