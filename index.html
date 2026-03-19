@@ -13,15 +13,19 @@ tailwind.config = {
 
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-  /* Universal light mode styles */
+  /* Light mode defaults */
   select, input {
-    @apply bg-white text-gray-900 border-gray-300;
+    background-color: white;
+    color: #111827; /* gray-900 */
+    border-color: #d1d5db; /* gray-300 */
   }
 
-  /* Universal dark mode styles */
+  /* Dark mode overrides */
   .dark select,
   .dark input {
-    @apply bg-gray-700 text-gray-100 border-gray-600;
+    background-color: #374151; /* gray-700 */
+    color: #f3f4f6; /* gray-100 */
+    border-color: #4b5563; /* gray-600 */
   }
 </style>
 
